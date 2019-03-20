@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="info" strict="true" name="XMLConfigTest"
+               packages="org.apache.logging.log4j.test">
+  <Properties>
+    <Property name="filename">logs/app.log</Property>
+  </Properties>
+  <Filter type="ThresholdFilter" level="trace"/>
+ 
+  <Appenders>
+    <Appender type="Console" name="STDOUT">
+      <Layout type="PatternLayout" pattern="%m MDC%X%n"/>
+      <Filters>
+        <Filter type="MarkerFilter" marker="FLOW" onMatch="DENY" onMismatch="NEUTRAL"/>
+        <Filter type="MarkerFilter" marker="EXCEPTION" onMatch="DENY" onMismatch="ACCEPT"/>
+      </Filters>
+    </Appender>
+    <Appender type="Console" name="FLOW">
+      <Layout type="PatternLayout" pattern="%C{1}.%M %m %ex%n"/><!-- class and line number -->
+      <Filters>
+        <Filter type="MarkerFilter" marker="FLOW" onMatch="ACCEPT" onMismatch="NEUTRAL"/>
+        <Filter type="MarkerFilter" marker="EXCEPTION" onMatch="ACCEPT" onMismatch="DENY"/>
+      </Filters>
+    </Appender>
+    <!--
+    <Appender type="File" name="File" fileName="${filename}">
+      <Layout type="PatternLayout">
+        <Pattern>%d %p %C{1.} [%t] %m%n</Pattern>
+      </Layout>
+    </Appender>
+    
+    <Appender type="List" name="List">
+    </Appender>
+	-->
+    <Appender type="RollingFile" name="RollingFile" fileName="${filename}"
+                 filePattern="logs/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz">
+      <PatternLayout>
+        <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
+      </PatternLayout>
+      <Policies>
+        <TimeBasedTriggeringPolicy />
+        <SizeBasedTriggeringPolicy size="250 MB"/>
+      </Policies>
+	  <DefaultRolloverStrategy max="4"/>
+    </Appender>
+  </Appenders>
+ 
+  <Loggers>
+    <Logger name="org.apache.logging.log4j.test1" level="debug" additivity="false">
+      <Filter type="ThreadContextMapFilter">
+        <KeyValuePair key="test" value="123"/>
+      </Filter>
+      <AppenderRef ref="STDOUT"/>
+    </Logger>
+     <!--
+    <Logger name="org.apache.logging.log4j.test2" level="debug" additivity="false">
+      <AppenderRef ref="File"/>
+    </Logger>
+    -->
+    <Logger name="org.apache.logging.log4j.test2" level="debug" additivity="false">
+      <AppenderRef ref="RollingFile"/>
+    </Logger>
+	<!-- 优先级从高到低依次为：OFF、FATAL、ERROR、WARN、INFO、DEBUG、TRACE、 ALL	
+。如果将log level设置在某一个级别上，那么比此级别优先级高的log都能打印出来。例如，如果设置优先级为WARN，那么OFF、FATAL、ERROR、WARN 4个级别的log能正常输出，而INFO、DEBUG、TRACE、 ALL级别的log则会被忽略。从我们实验的结果可以看出，log4j默认的优先级为ERROR或者WARN（实际上是ERROR）。
+	-->
+    <Root level="trace">
+      <AppenderRef ref="RollingFile"/>
+    </Root>
+  </Loggers>
+ 
+</Configuration>

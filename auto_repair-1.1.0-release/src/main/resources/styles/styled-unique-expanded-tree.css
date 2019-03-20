@@ -1,0 +1,42 @@
+.tree-view, .tree-cell {
+    -fx-background-color: rgb(68, 68, 68) ;
+    -fx-text-fill: rgb(250, 250, 250) ;
+    /*-fx-font-size: 11pt;*/
+}
+.tree-cell:expanded, .tree-cell:sub-tree-item {
+    -fx-background-color: #404040 ;
+}
+.tree-cell:selected {
+    -fx-font-weight: bold ;
+    -fx-background-color: rgb(42, 42, 42) ;
+}
+.tree-cell {
+    -fx-padding: 0.75em 0em 0.75em 0em ;
+}
+.tree-cell:sub-tree-item {
+    -fx-padding: 0.25em ;
+}
+
+.tree-view *.scroll-bar:horizontal,
+.tree-view *.scroll-bar:horizontal *.track,
+.tree-view *.scroll-bar:horizontal *.track-background,
+.tree-view *.scroll-bar:horizontal *.thumb,
+.tree-view *.scroll-bar:horizontal *.increment-button,
+.tree-view *.scroll-bar:horizontal *.decrement-button,
+.tree-view *.scroll-bar:horizontal *.increment-arrow, 
+.tree-view *.scroll-bar:horizontal *.decrement-arrow {
+	/*-fx-base: transparent;
+	-fx-background-color: white;*/
+}
+
+.tree-view *.column-header-background *.show-hide-columns-button,
+.tree-view *.scroll-bar:vertical *.increment-button,
+.tree-view *.scroll-bar:vertical *.decrement-button,
+.tree-view *.scroll-bar:vertical *.increment-arrow, 
+.tree-view *.scroll-bar:vertical *.decrement-arrow {
+    -fx-background-color: null;
+    -fx-background-radius: 0;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+    -fx-shape: null;
+}
